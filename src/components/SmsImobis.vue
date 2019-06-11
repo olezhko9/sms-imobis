@@ -1,21 +1,26 @@
 <template>
-  <div class="sms">
-    <form action="">
-      <div class="form-row">
-        <textarea class="form-control" rows="5" v-model="smsText" @input="updateSmsInfo"></textarea>
-      </div>
-      <div class="form-row mt-3">
-        <div class="form-group col-md-4">
-          <label class="switch">
-            <input type="checkbox" v-model="showTranslit" @click="transliterateSmsText">
-            <span class="slider round"></span>
-          </label>Транслитерировать
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <form action="">
+        <div class="form-row">
+          <textarea class="form-control" rows="5" v-model="smsText" @input="updateSmsInfo"></textarea>
         </div>
-        <div class="form-group col-md-8 text-right">
-          <span>Символов: {{ smsTextLength }} ({{ smsCount }})</span>
+        <div class="form-row text-left mt-3">
+          <div class="form-group col-12 col-sm-8 col-lg-6 text-left">
+            <label class="switch">
+              <input type="checkbox" v-model="showTranslit" @click="transliterateSmsText">
+              <span class="slider round"></span>
+            </label>Транслитерировать
+          </div>
+          <div class="form-group col-12 col-sm-4 col-lg-4">
+            <span>Символов: {{ smsTextLength }} ({{ smsCount }})</span>
+          </div>
+          <div class="form-group col-12 col-lg-2 text-right">
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Сохранить</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
