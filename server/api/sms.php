@@ -1,5 +1,5 @@
 <?php
-    require_once("./config.php");
+    require_once("../config.php");
 
     $con = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB);
 
@@ -16,7 +16,7 @@
             $sms_text = $_POST["sms_text"];
             $sms_count = $_POST["sms_count"];
 
-            $sql = "insert into contacts (sms_text, sms_count) values ('$sms_text', '$sms_count')";
+            $sql = "insert into sms (sms_text, sms_count) values ('$sms_text', '$sms_count')";
             break;
     }
 
@@ -25,6 +25,12 @@
     if (!$result) {
         http_response_code(404);
         die(mysqli_error($con));
+    }
+
+    if ($method == 'GET') {
+        for ($i=0 ; $i<mysqli_num_rows($result) ; $i++) {
+           echo ($i>0?',':'').json_encode(mysqli_fetch_object($result));
+        }
     } else {
         echo json_encode($result);
     }
