@@ -20,6 +20,7 @@
           </div>
         </div>
       </form>
+<!--      <button class="btn btn-danger" @click="getAllSms">Получить</button>-->
     </div>
   </div>
 </template>
@@ -123,6 +124,13 @@ export default {
           console.log(err);
         });
     },
+
+    getAllSms() {
+      SmsService.fetchAllSms()
+        .then(res => {
+          console.log(res);
+        });
+    }
   }
 }
 </script>
