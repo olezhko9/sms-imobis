@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-8">
-      <form action="">
+      <form>
         <div class="form-row">
           <textarea class="form-control" rows="5" v-model="smsText" @input="updateSmsInfo"></textarea>
         </div>
@@ -16,7 +16,7 @@
             <span>Символов: {{ smsTextLength }} ({{ smsCount }})</span>
           </div>
           <div class="form-group col-12 col-lg-2 text-right">
-            <button type="submit" class="btn btn-primary btn-sm btn-block">Сохранить</button>
+            <input type="button" value="Сохранить" class="btn btn-primary btn-sm btn-block" @click="saveSms">
           </div>
         </div>
       </form>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import SmsService from "@/services/SmsService"
+
 export default {
   name: 'SmsImobis',
   data() {
@@ -105,7 +107,22 @@ export default {
       }
 
       this.updateSmsInfo();
-    }
+    },
+
+    saveSms() {
+      let formData = new FormData();
+      formData.append('sms_text', this.smsText);
+      formData.append('sms_count', this.smsCount);
+      SmsService.saveSms(formData)
+        .then(res => {
+          console.log(res);
+          this.smsText = '';
+          this.getSmsTextLength();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
   }
 }
 </script>
