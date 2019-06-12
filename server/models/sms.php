@@ -18,9 +18,8 @@ function get_all_sms($con) {
 }
 
 function save_sms($con, $sms_text, $sms_count) {
-    $query = "insert into sms (sms_text, sms_count) values ('$sms_text', '$sms_count')";
-    sprintf("INSERT INTO sms (sms_text, sms_count) VALUES ('%s', '%d')",
-        mysqli_real_escape_string($con, sms_text), $sms_count);
+    $query = sprintf("INSERT INTO sms (sms_text, sms_count) VALUES ('%s', '%d')",
+            mysqli_real_escape_string($con, $sms_text), $sms_count);
     $result = mysqli_query($con, $query);
 
     if (!$result) {

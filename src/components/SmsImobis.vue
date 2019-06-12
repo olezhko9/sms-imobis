@@ -124,6 +124,9 @@ export default {
                 .then(res => {
                   console.log(res);
                   this.smsText = '';
+                  this.smsOriginalText = '';
+                  this.smsTransliteratedText = '';
+                  this.showTranslit = false;
                   this.getSmsTextLength();
                 })
                 .catch(err => {
