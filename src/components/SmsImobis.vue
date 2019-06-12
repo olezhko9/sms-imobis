@@ -1,6 +1,9 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-8">
+      <div v-if="isEmptySmsBeforeSave" class="alert alert-danger">
+        Сообщение не должно быть пустым!
+      </div>
       <form>
         <div class="form-row">
           <textarea class="form-control" rows="5" v-model="smsText" @input="updateSmsInfo"></textarea>
@@ -37,7 +40,8 @@ export default {
       smsTransliteratedText: '',
       smsTextLength: 0,
       smsCount: 0,
-      showTranslit: false
+      showTranslit: false,
+      isEmptySmsBeforeSave: false
     }
   },
 
@@ -45,6 +49,7 @@ export default {
     updateSmsInfo() {
       this.getSmsTextLength();
       this.getSmsCount();
+      this.isEmptySmsBeforeSave = false;
     },
 
     getSmsTextLength() {
@@ -111,18 +116,22 @@ export default {
     },
 
     saveSms() {
-      let formData = new FormData();
-      formData.append('sms_text', this.smsText);
-      formData.append('sms_count', this.smsCount);
-      SmsService.saveSms(formData)
-        .then(res => {
-          console.log(res);
-          this.smsText = '';
-          this.getSmsTextLength();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      if (this.smsTextLength > 0) {
+        let formData = new FormData();
+        formData.append('sms_text', this.smsText);
+        formData.append('sms_count', this.smsCount);
+        SmsService.saveSms(formData)
+                .then(res => {
+                  console.log(res);
+                  this.smsText = '';
+                  this.getSmsTextLength();
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+      } else {
+        this.isEmptySmsBeforeSave = true;
+      }
     },
 
     getAllSms() {
